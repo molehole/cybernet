@@ -1,0 +1,143 @@
+<!DOCTYPE html>\
+{% load staticfiles %}
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title }}</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+
+        <!-- My CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'terminal/css/informacje.css' %}">
+        <!-- <link rel="stylesheet" type="text/css" href="{% static 'szwalnia/style.css' %}"> -->
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <!-- <script type="text/javascript" src="http://livejs.com/live.js"></script> -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <style type="text/css" media="screen">
+            body {
+                background-color: #E4DFDA;
+            }
+            h3 {
+                color: #C1666B;
+                font-weight: bolder;
+            }
+            h5 {
+                padding-left: 45px;
+                color: #4357AD;
+                font-weight: bold;
+            }
+            h6 {
+                padding-left: 65px;
+                color: #4357AD;
+            }
+            #myProgress {
+              position: relative;
+              width: 100%;
+              height: 30px;
+              background-color: #ddd;
+            }
+
+            #myBar {
+              position: absolute;
+              height: 100%;
+              background-color: #4CAF50;
+            }
+            .error {
+                color: red;
+                font-size: 25px;
+                font-weight: bolder;
+            }
+            .wybrana_data {
+                font-weight: bolder;
+                font-size: 25px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div id="logo" class="text-center"><img src="{% static 'terminal/img/logo.png' %}" alt=""></div>
+            <div id="header"></div>
+            <div id="main_body">
+              <div class="error">{{alert}}</div>
+              <div class="header">
+                <form action="{% url 'informacje_index' %}" method="POST">
+                {% csrf_token %}
+                  Data: <input type="text" id="datepicker" name="nowa_data" value="">
+                  <input type="submit" name="ok" value="Wyszukaj">
+                </form>
+              </div>
+              <div class="wybrana_data text-center">{{wybrana_data}}</div>
+              {% for tura in tury %}
+              <div class="tura">
+                <h3>
+                  Tura {{ tura.tura.nr }}
+                </h3>
+              {{ tura.ilosci_pozostale }} z {{ tura.tura.ta_set.all.count }}
+              <div id="myProgress">
+                <div id="myBar" style="width: {{ tura.procent }}%;"></div>
+              </div>
+            </div>
+            <div class="ta">
+              {% for ta in tura.tura.ta_set.all %}
+              <h5 {% if ta.zakonczone %}
+                style="color: red;"
+                {% endif %}>{{ ta.nr }} - {{ ta.status_set.first.stolarnia_ilosc }}szt.*</h5>
+                {% for et in ta.etykieta_set.all %}
+                <h6 {% if ta.zakonczone %}
+                style="color: red;"
+                {% endif %}>{{ et.nr }} - {{ et.element }}</h6>
+                {% endfor %}
+              {% endfor %}
+              </div>
+              <hr>
+              {% endfor %}
+            </div>
+          </div>
+
+
+        <!-- jQuery -->
+        <script src="{% static 'jquery/js/jquery.min.js' %}"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        <script type="text/javascript">
+          $(document).ready(function() {
+            $('.ta').hide();
+
+            $.datepicker.regional.pl = {
+          	closeText: "Zamknij",
+          	prevText: "&#x3C;Poprzedni",
+          	nextText: "Następny&#x3E;",
+          	currentText: "Dziś",
+          	monthNames: [ "Styczeń","Luty","Marzec","Kwiecień","Maj","Czerwiec",
+          	"Lipiec","Sierpień","Wrzesień","Październik","Listopad","Grudzień" ],
+          	monthNamesShort: [ "Sty","Lu","Mar","Kw","Maj","Cze",
+          	"Lip","Sie","Wrz","Pa","Lis","Gru" ],
+          	dayNames: [ "Niedziela","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota" ],
+          	dayNamesShort: [ "Nie","Pn","Wt","Śr","Czw","Pt","So" ],
+          	dayNamesMin: [ "N","Pn","Wt","Śr","Cz","Pt","So" ],
+          	weekHeader: "Tydz",
+          	dateFormat: "dd.mm.yy",
+          	firstDay: 1,
+          	isRTL: false,
+          	showMonthAfterYear: false,
+          	yearSuffix: "" };
+            $('#datepicker').datepicker($.datepicker.regional[ "pl" ]);
+
+            $('.tura').click(function() {
+              $(this).next('.ta').toggle();
+            })
+          });
+        </script>
+    </body>
+</html>

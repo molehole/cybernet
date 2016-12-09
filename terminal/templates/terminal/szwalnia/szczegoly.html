@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'terminal/css/style.css' %}">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css" media="screen">
+        span {
+            font-size: xx-small;    
+        }
+        p {
+            margin: 2px;
+            font-size: xx-small;
+        }
+        textarea {
+            font-size: 10px;
+        }
+        #elementy {
+            height: 70px;
+            width: 220px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div id="logo" class="text-center"><img src="{% static 'terminal/img/logo.png' %}" alt=""></div>
+    <div class="message_box">
+      {% if message_variable %}
+        <p>Tura: {{ tura }}</p>
+        <p>Numer TA: {{ ta }}</p>
+        <p>Numer etykiety: {{ nr }}</p>
+        <textarea id="elementy" name="" disabled="True">
+        {% for element in elementy %}{{ element.element }}
+        {% endfor %}
+        </textarea>
+        {% if wozki %}
+            <p>
+            Wozek: {% for wozek in wozki %}
+                     {{ wozek }}
+                   {% endfor %}
+            </p>
+        {% endif %}
+        {% if pola %}
+            <p>
+            Pole: {% for pole in pola %}
+                    {{ pole }}
+                  {% endfor %}
+            </p>
+        {% endif %}        
+        <p>Pozostale SZWALNIA: {{ ilosci_szwalnia }}</p>
+        <p>Pozostale STOLARNIA: {{ ilosci_stolarnia }}</p>
+      {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <a href="{% url 'szwalnia_index' %}">
+                <button type='button' class="button btn-sm">Cofnij</button>
+            </a>
+        </div>
+    </div>
+    </div>
+    <!-- jQuery -->
+    <script src="{% static 'jquery/js/jquery.min.js' %}"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+</body>
+</html>

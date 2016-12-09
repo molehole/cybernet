@@ -1,0 +1,46 @@
+body {
+    width: 240px;
+    height: 320px;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+.container {
+    background-color: #888888;
+    width: inherit;
+    height: inherit;
+}
+
+.btn {
+    margin: 10px;
+    width: 120px;
+    height: 30px;
+}
+
+.btn-sm {
+    width: 100%;
+}
+
+#button_space {
+    padding-top: 25px;
+    margin: auto;
+    width: 180px;
+}
+
+.errorinfo {
+    padding-top: 10px;
+    width: 100%;
+}
+
+.message_box {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+.mini_info {
+    font-size: smaller;
+    margin: 0 0 2px;
+}
