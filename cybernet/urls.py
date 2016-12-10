@@ -18,5 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^cybrenet/', include('terminal.urls'))
+    url(r'^cybernet/', include('terminal.urls'))
 ]

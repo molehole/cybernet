@@ -19,7 +19,7 @@ from terminal import views
 urlpatterns = [
     url(r'^szwalnia/status/$', views.szwalnia, name='szwalnia'),
     url(r'^szwalnia/przekaz/$', views.szwalnia_przekaz, name='szwalnia_przekaz'),
-    url(r'^stolarnia/status/$', views.stolarnia name='stolarnia),
+    url(r'^stolarnia/status/$', views.stolarnia, name='stolarnia'),
     url(r'^stolarnia/przekaz/$', views.stolarnia_przekaz, name='stolarnia_przekaz'),
     url(r'^bufor/status/$', views.bufor, name='bufor'),
     url(r'^bufor/przekaz/$', views.bufor_przekaz, name='bufor_przekaz'),

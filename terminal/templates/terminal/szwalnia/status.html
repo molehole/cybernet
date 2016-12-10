@@ -68,7 +68,7 @@
             <div id="main_body">
               <div class="error">{{alert}}</div>
               <div class="header">
-                <form action="{% url 'szwalnia_status' %}" method="POST">
+                <form action="{% url 'szwalnia' %}" method="POST">
                 {% csrf_token %}
                   Data: <input type="text" id="datepicker" name="nowa_data" value="">
                   <input type="submit" name="ok" value="Wyszukaj">

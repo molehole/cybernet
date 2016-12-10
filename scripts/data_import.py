@@ -15,11 +15,11 @@ main_path = os.path.join('/', 'media', 'Etykiety_TXT')
 #main_path = '//jan-svr-nas01/domowy/Labeo/Planowanie/TXT/'
 
 # Zmienne
-elementy_regex = '(?< = \^FN921\^FD)(.*)(? = \^FS)'
-element_regex = '(?< = \^FN922\^FD)(.*)(? = \^FS)'
-informacje_regex = '(?< = \^FN949\^FD)(.*)(? = \^FS)'
-nr_regex = '(?< = \^FN929\^FD)(.*)(? = \^FS)'
-ilosc_regex = '(?< = \^FN934\^FD)(.*)(? =  von 001\^FS)'
+elementy_regex = '(?<=\^FN921\^FD)(.*)(?=\^FS)'
+element_regex = '(?<=\^FN922\^FD)(.*)(?=\^FS)'
+informacje_regex = '(?<=\^FN949\^FD)(.*)(?=\^FS)'
+nr_regex = '(?<=\^FN929\^FD)(.*)(?=\^FS)'
+ilosc_regex = '(?<=\^FN934\^FD)(.*)(?= von 001\^FS)'
 etykieta = '\^XF\S+.ZPL(.*?)\^FX End of job'
 
 tablica_etykiet = []

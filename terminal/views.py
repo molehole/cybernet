@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-import terminal.models
+from terminal.models import Etykieta, Szwalnia_status, Stolarnia_status, Bufor_status, Kolejnosc, Tura
 from django.db.models import Count
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
@@ -16,13 +16,13 @@ def szwalnia_przekaz(request):
         return render(request, 'terminal/szwalnia/przekaz.html', {'error': True,
                                                         'message': 'Niepoprawne dane!'})
 
-    T=Etyk.ta 
+    T=Etyk.ta
     s=Szwalnia_status.objects.get(ta=T)
     if T.zakonczone == True:
         return render(request, 'terminal/szwalnia/przekaz.html', {'error': True,
                                                         'message': 'Zlecenie zostalo juz zakończone'})
     else:
-        w=Wozek(ta=T, wozek=nr_wozka) 
+        w=Wozek(ta=T, wozek=nr_wozka)
         s.szwalnia_ilosc -= 1
         if s.szwalnia_ilosc == 0:
             T.zakonczone=True
@@ -32,7 +32,7 @@ def szwalnia_przekaz(request):
         message_string='Dodano TA %s na wózek %s' % (T.nr, nr_wozka)
         context_dict={
         'success': True,
-        'message': message_string, 
+        'message': message_string,
         }
         return render(request, 'terminal/szwalnia/przekaz.html', context_dict)
 
@@ -48,8 +48,8 @@ def szwalnia(request):
     lista_kolejnosci=[]
     lista_dat=[]
     ordered_list=()
-    for each in kolejnosc:              
-        tury=Tura.objects.filter(nr=each.tura, data=each.data).first()    
+    for each in kolejnosc:
+        tury=Tura.objects.filter(nr=each.tura, data=each.data).first()
         ilosci_pozostale=tury.ta_set.all().filter(zakonczone=True).count()
         try:
             procent=int((ilosci_pozostale/tury.ta_set.all().count())*100)
@@ -74,13 +74,13 @@ def stolarnia_przekaz(request):
         return render(request, 'terminal/stolarnia/przekaz.html', {'error': True,
                                                         'message': 'Niepoprawne dane!'})
 
-    T=Etyk.ta 
+    T=Etyk.ta
     s=Stolarnia_status.objects.get(ta=T)
     if T.zakonczone == True:
         return render(request, 'terminal/stolarnia/przekaz.html', {'error': True,
                                                         'message': 'Zlecenie zostalo juz zakończone'})
     else:
-        w=Pole(ta=T, pole=nr_pola)    
+        w=Pole(ta=T, pole=nr_pola)
         s.stolarnia_ilosc -= 1
         if s.stolarnia_ilosc == 0:
             T.zakonczone=True
@@ -90,12 +90,12 @@ def stolarnia_przekaz(request):
         message_string='Dodano TA %s na pole %s' % (T.nr, nr_wozka)
         context_dict={
         'success': True,
-        'message': message_string, 
+        'message': message_string,
         }
         return render(request, 'terminal/stolarnia/przekaz.html', context_dict)
 
 
-def stolarni(request):
+def stolarnia(request):
     if not request.POST:
         return render(request, 'terminal/stolarnia/status.html', {})
     try:
@@ -106,8 +106,8 @@ def stolarni(request):
     lista_kolejnosci=[]
     lista_dat=[]
     ordered_list=()
-    for each in kolejnosc:              
-        tury=Tura.objects.get(nr=each.tura, data=each.data)       
+    for each in kolejnosc:
+        tury=Tura.objects.get(nr=each.tura, data=each.data)
         ilosci_pozostale=tury.ta_set.all().filter(zakonczone=True).count()
         try:
             procent=int((ilosci_pozostale/tury.ta_set.all().count())*100)
@@ -129,27 +129,27 @@ def bufor_oddaj(request):
     wozek=int(request.POST['wozek'])
     status_wozka=Wozek.objects.filter(wozek=wozek, odebrany=True)
     if len(status_wozka) == 0:
-        render(request, 'terminal/bufor/oddaj', context_dict={'error': 'Blad krytyczny! Wezwij administratora sieci!'})   
+        render(request, 'terminal/bufor/oddaj', context_dict={'error': 'Blad krytyczny! Wezwij administratora sieci!'})
     for each in status_wozka:
         each.delete()
     message="Wozek %i oddany na szwalnie" % wozek
     context_dict={
     'message': message,
-    }       
+    }
     render(request, 'terminal/bufor/oddaj', context_dict)
 
 def bufor_potwierdz(request):
     wozek=int(request.POST['wozek'])
     status_wozka=Wozek.objects.filter(wozek=wozek, odebrany=False)
     if len(status_wozka) == 0:
-        render(request, 'terminal/bufor/potwierdz', context_dict={'error': 'Podany wozek nie posiada seskanowanych kompletow!'})  
+        render(request, 'terminal/bufor/potwierdz', context_dict={'error': 'Podany wozek nie posiada seskanowanych kompletow!'})
     for each in status_wozka:
         s=each.ta.bufor_status_set.first()
         each.odebrany=True
         each.save()
     context_dict={
     'message': status_wozka,
-    }       
+    }
     render(request, 'terminal/bufor/potwierdz', context_dict)
 
 def bufor_sprawdz(request):
@@ -169,13 +169,13 @@ def Testowa(request):
     except Exception as e:
         return render(request, 'terminal/testowa.html', {'error': True,
                                                         'message': 'Niepoprawne dane!'})
-    T=Etyk.ta 
+    T=Etyk.ta
     s=Status.objects.get(ta=T)
     if T.zakonczone == True:
         return render(request, 'terminal/testowa.html', {'error': True,
                                                         'message': 'Zlecenie zostalo juz zakończone'})
     else:
-        w=Wozek(ta=T, wozek=nr_wozka) 
+        w=Wozek(ta=T, wozek=nr_wozka)
         s.szwalnia_ilosc -= 1
         if s.szwalnia_ilosc == 0:
             T.zakonczone=True
@@ -185,6 +185,6 @@ def Testowa(request):
         message_string='Dodano %s na wózek %s' % (T.nr, nr_wozka)
         context_dict={
         'success': True,
-        'message': message_string, 
+        'message': message_string,
         }
         return render(request, 'terminal/testowa.html', context_dict)

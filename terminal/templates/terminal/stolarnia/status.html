@@ -68,7 +68,7 @@
             <div id="main_body">
               <div class="error">{{alert}}</div>
               <div class="header">
-                <form action="{% url 'informacje_index' %}" method="POST">
+                <form action="{% url 'stolarnia' %}" method="POST">
                 {% csrf_token %}
                   Data: <input type="text" id="datepicker" name="nowa_data" value="">
                   <input type="submit" name="ok" value="Wyszukaj">
@@ -89,7 +89,7 @@
               {% for ta in tura.tura.ta_set.all %}
               <h5 {% if ta.zakonczone %}
                 style="color: red;"
-                {% endif %}>{{ ta.nr }} - {{ ta.status_set.first.stolarnia_ilosc }}szt.*</h5>
+                {% endif %}>{{ ta.nr }} - {{ ta.stolarnia_status_set.first.stolarnia_ilosc }}szt.*</h5>
                 {% for et in ta.etykieta_set.all %}
                 <h6 {% if ta.zakonczone %}
                 style="color: red;"
