@@ -4,15 +4,15 @@ import re
 from stat import S_ISREG, ST_CTIME, ST_MODE
 import os
 from datetime import datetime
-from terminal.models import Etykieta, Szwalnia_status, Stolarnia_status, Bufor_status, Tura, TA
+from terminal.models import Etykieta, Szwalnia_status, Stolarnia_status, Tura, TA
 from django.db.models import Count
 
 # Timer
-start_time  =  time.time()
+start_time = time.time()
 
 # Glowna sciezka
 main_path = os.path.join('/', 'media', 'Etykiety_TXT')
-#main_path = '//jan-svr-nas01/domowy/Labeo/Planowanie/TXT/'
+# main_path = '//jan-svr-nas01/domowy/Labeo/Planowanie/TXT/'
 
 # Zmienne
 elementy_regex = '(?<=\^FN921\^FD)(.*)(?=\^FS)'
@@ -131,16 +131,11 @@ def UzupelnijStatus(TA_pelne):
     if ta_created:
         ilosc = WyszukajIlosci(TA_pelne)
         ta_index.szwalnia_ilosc = ilosc
+        ta_index.save()
     ta_index, ta_created = Stolarnia_status.objects.get_or_create(ta = TA_pelne)
     if ta_created:
         ilosc = WyszukajIlosci(TA_pelne)
         ta_index.szwalnia_ilosc = ilosc
-    ta_index, ta_created = Bufor_status.objects.get_or_create(ta = TA_pelne)
-    if ta_created:
-        ilosc = WyszukajIlosci(TA_pelne)
-        ta_index.szwalnia_ilosc = ilosc
-        ta_index.stolarnia_ilosc = ilosc
-        ta_index.tapicernia_ilosc =  ilosc
         ta_index.save()
 
 for T, filenames in sorted(wyszukajPlikiPoDacie(main_path)):
